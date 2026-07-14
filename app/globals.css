@@ -232,4 +232,49 @@ body {
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}/* --- ADAPTACIÓN RESPONSIVE (MÓVIL) --- */
+@media (max-width: 768px) {
+  /* Reducimos el padding del cuerpo para ganar espacio lateral */
+  body {
+    padding: 0 16px;
+  }
+
+  /* El bloque central ahora ocupa casi todo el ancho disponible */
+  .portfolio-shell {
+    padding: 24px 16px !important;
+    border-radius: 16px;
+  }
+
+  /* Ajustamos el padding de la sección intro */
+  .intro-section {
+    margin-top: 10px !important;
+  }
+
+  /* Alineación del menú en móvil: Colapsar enlaces en vertical si es necesario */
+  .navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  
+  .navbar-links-left, 
+  .navbar-links-right {
+    gap: 16px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Evitar que las cajas de preview se desborden */
+  .preview-box {
+    max-width: 100% !important;
+  }
+
+  .project-content {
+    max-width: 100% !important;
+  }
+
+  /* Ajuste de tipografía para pantallas pequeñas */
+  h1 {
+    font-size: 3.5rem !important; /* H1 más chico para que no rompa el layout */
+  }
 }
