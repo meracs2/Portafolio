@@ -2,18 +2,14 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Importamos la fuente Ballet directamente de los servidores de Google */
 @import url('https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap');
 
 :root {
-  /* PALETA MASCULINA: Fondo grafito y bloque central verde salvia */
-  --bg-grafito-oscuro: #1e2222;  /* Fondo exterior / Canvas */
-  --bg-verde-salvia: #e3e8de;    /* Fondo del bloque de contenido */
-  --text: #111111;               /* Texto principal */
-  --accent: #555555;             /* Texto secundario */
+  --bg-verde-salvia: #e3e8de;
+  --text: #111111;
+  --accent: #555555;
 }
 
-/* Reset limpio y absoluto */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -24,13 +20,10 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--bg-grafito-oscuro);
+  background-color: var(--bg-verde-salvia); /* Fondo uniforme */
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  /* Mantenemos tu espaciado lateral original para no comer espacio útil */
   padding: 0 40px; 
-  
-  /* Suavizado de tipografía */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,31 +37,6 @@ body {
   max-width: 960px;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
-  background: transparent;
-}
-
-/* Link de la marca: "About me" */
-.navbar-brand-link {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: var(--text);
-  transition: opacity 0.3s ease;
-}
-
-.navbar-brand-link:hover {
-  opacity: 0.7;
-}
-
-.navbar-dot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--text);
-  border-radius: 50%;
 }
 
 .navbar-links {
@@ -81,52 +49,14 @@ body {
   text-decoration: none;
   color: var(--accent);
   transition: color 0.3s ease;
-  font-weight: 400;
 }
 
-.navbar-links a:hover {
-  color: var(--text);
-}
-
-/* --- CONTENEDORES --- */
-.portfolio-root {
-  background-color: transparent !important;
-  min-height: 100vh;
-}
-
-.frame-container {
-  position: relative;
-  /* Espaciado superior e inferior para que el bloque central flote elegantemente */
-  min-height: calc(100vh - 120px);
-  padding: 38px 0;
-  background: transparent; 
-}
-
-/* Bloque central: Limpio, plano, sin bordes de 1px ni líneas artificiales */
+/* --- CONTENEDOR PRINCIPAL (SIN CAJA GRIS) --- */
 .portfolio-shell {
   max-width: 960px;
   margin: 0 auto;
   padding: 40px;
-  font-family: 'Inter', sans-serif;
   background-color: var(--bg-verde-salvia) !important; 
-  border-radius: 24px; /* Curvatura limpia para separar del fondo oscuro */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); /* Sombra suave para dar volumen */
-}
-
-/* --- ESTILOS DE TEXTO --- */
-.intro-section .subtitle {
-  font-family: 'Ballet', cursive !important;
-  font-style: normal !important;
-  color: var(--text) !important;
-}
-
-.intro-section .lead-paragraph {
-  font-family: 'Inter', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 300 !important;
-  line-height: 1.7 !important;
-  margin-top: 24px;
-  color: var(--accent);
 }
 
 /* --- ESTRUCTURA DE PROYECTOS --- */
@@ -154,127 +84,41 @@ body {
   transform: translateX(0);
 }
 
-.card-link {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  text-decoration: none;
-  color: inherit;
-  align-items: center;
-  text-align: center;
-}
-
 .preview-box {
   width: 100%;
   max-width: 520px;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.04); 
   margin: 0 auto;
-  border: none; 
 }
 
-.project-content {
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.project-content h3 {
-  font-size: 24px;
-  margin-top: 0;
-  margin-bottom: 8px;
-}
-
-.tech-tag {
-  margin-top: 12px;
-  padding-left: 12px;
-  border-left: 2px solid;
-}
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* --- GRILLA DE PROYECTOS FUTUROS (CUADRADOS FLOTANTES) --- */
-.placeholder-card {
-  /* Transición súper limpia utilizando curvas de aceleración editorial */
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.4s ease, 
-              border-color 0.4s ease,
-              box-shadow 0.4s ease !important;
-}
-
-.placeholder-card:hover {
-  transform: translateY(-8px);
-  background-color: rgba(0, 0, 0, 0.03) !important;
-  border-color: rgba(17, 17, 17, 0.35) !important;
-  /* Agregamos una sombrita muy sutil para potenciar el efecto flotante */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
-}
-
-/* --- FOOTER --- */
-.footer {
-  margin-top: 80px;
-  padding: 40px 0 0 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 11px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--accent);
-}
-
-.footer-signature {
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}/* --- ADAPTACIÓN RESPONSIVE (MÓVIL) --- */
+/* --- ADAPTACIÓN RESPONSIVE (MÓVIL) --- */
 @media (max-width: 768px) {
-  /* Reducimos el padding del cuerpo para ganar espacio lateral */
   body {
     padding: 0 16px;
   }
 
-  /* El bloque central ahora ocupa casi todo el ancho disponible */
   .portfolio-shell {
-    padding: 24px 16px !important;
-    border-radius: 16px;
+    padding: 20px 0 !important;
   }
 
-  /* Ajustamos el padding de la sección intro */
-  .intro-section {
-    margin-top: 10px !important;
-  }
-
-  /* Alineación del menú en móvil: Colapsar enlaces en vertical si es necesario */
   .navbar {
     flex-direction: column;
     gap: 16px;
-    padding: 16px 0;
-  }
-  
-  .navbar-links-left, 
-  .navbar-links-right {
-    gap: 16px !important;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
-  /* Evitar que las cajas de preview se desborden */
   .preview-box {
     max-width: 100% !important;
   }
 
-  .project-content {
-    max-width: 100% !important;
+  /* Forzamos la grilla a una sola columna */
+  #otros-proyectos > div {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
   }
 
-  /* Ajuste de tipografía para pantallas pequeñas */
   h1 {
-    font-size: 3.5rem !important; /* H1 más chico para que no rompa el layout */
+    font-size: 3rem !important;
   }
 }
