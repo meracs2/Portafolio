@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+// Slider: Solo tus dos productos principales
 const projects = [
   {
     title: 'Ronin Bike',
@@ -23,13 +24,57 @@ const projects = [
   }
 ];
 
+// Grilla: El Portafolio activo + Proyectos en desarrollo con el mismo formato del slider
+const gridProjects = [
+  {
+    id: 'portfolio',
+    title: 'AMsolutions | Portafolio',
+    description: 'Mi carta de presentación interactiva y profesional diseñada para una navegación ultra veloz.',
+    href: 'https://marcelomoyano.vercel.app',
+    tech: 'Next.js, React, Tailwind CSS, Vercel',
+    accentColor: '#10b981', // Tono esmeralda
+    problema: 'Los portafolios modernos suelen abusar de animaciones pesadas y frameworks sobredimensionados, lo que espanta a clientes potenciales que buscan respuestas rápidas.',
+    solucion: 'Diseñé una interfaz minimalista y brutalista súper optimizada, estructurando el contenido para lectura escaneable y utilizando Next.js para asegurar una carga por debajo del segundo.',
+    isLive: true,
+    showLiveButton: false // Propiedad especial para ocultar el botón de "Visitar Sitio Live" en su propia tarjeta
+  },
+  {
+    id: 'beta',
+    title: 'Proyecto Beta',
+    description: 'Desarrollo y testing de una arquitectura basada en microservicios independientes.',
+    href: '#',
+    tech: 'Go, Docker, gRPC, PostgreSQL',
+    accentColor: '#6b7280',
+    problema: 'Mantener un monolito gigante suele volver inestable cualquier plataforma a medida que escala el tráfico o se agregan nuevas funcionalidades.',
+    solucion: 'Estructurando una API Gateway que distribuya las peticiones de forma balanceada hacia microservicios desacoplados escritos en Go, asegurando tolerancia a fallos.',
+    isLive: false,
+    showLiveButton: false
+  },
+  {
+    id: 'saas',
+    title: 'SaaS Platform',
+    description: 'Planteo de arquitectura e integraciones completas de software como servicio (SaaS).',
+    href: '#',
+    tech: 'Next.js, Supabase, Stripe, Tailwind',
+    accentColor: '#6b7280',
+    problema: 'La gestión de suscripciones recurrentes, roles de usuarios y bases de datos seguras suele requerir meses de desarrollo e integraciones complejas.',
+    solucion: 'Diseñando un boiler-plate escalable utilizando Supabase para autenticación/BBDD en tiempo real y webhooks de Stripe para automatizar el ciclo de facturación.',
+    isLive: false,
+    showLiveButton: false
+  }
+];
+
 export default function Portfolio() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Estado para controlar qué acordeón de la grilla está abierto (mapeado por id del proyecto)
+  const [openGridProject, setOpenGridProject] = useState<string | null>(null);
+  
   const [showScrollTop, setShowScrollTop] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Referencias para manejar el arrastre (Swipe / Drag)
+  // Referencias para manejar el arrastre (Swipe / Drag) en el slider
   const dragStartX = useRef(0);
   const isDragging = useRef(false);
 
@@ -116,6 +161,10 @@ export default function Portfolio() {
     });
   };
 
+  const toggleGridProject = (id: string) => {
+    setOpenGridProject(current => current === id ? null : id);
+  };
+
   const emailAsunto = encodeURIComponent("Consulta sobre desarrollo web - AMsolutions");
   const emailCuerpo = encodeURIComponent("¡Hola Marcelo!\n\nMe pongo en contacto con vos para consultarte sobre un proyecto...\n\n[Escribí tu consulta acá]\n\nSaludos.");
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=amsolutions.studio@gmail.com&su=${emailAsunto}&body=${emailCuerpo}`;
@@ -143,7 +192,6 @@ export default function Portfolio() {
         padding: '40px 24px'
       }}
     >
-      {/* ESTRUCTURA CONTENEDORA ORIGINAL RESTAURADA */}
       <main className="portfolio-shell" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
         
         {/* CABECERA */}
@@ -179,11 +227,10 @@ export default function Portfolio() {
             Arquitectura web centrada en el rendimiento puro. Convertimos su visión en código sólido, eliminando la complejidad para que cada proyecto funcione sin fricción.
           </p>
 
-          {/* NAVBAR INTEGRADO PERFECTAMENTE (SIN ROMPER NADA) */}
           <nav className="navbar" style={{ 
             position: 'relative', 
             width: '100%', 
-            padding: '24px 0px', // padding lateral en 0 para pegar los textos al ras de la línea
+            padding: '24px 0px', 
             borderTop: '1px solid rgba(17, 17, 17, 0.1)', 
             borderBottom: '1px solid rgba(17, 17, 17, 0.1)', 
             display: 'flex',
@@ -193,14 +240,12 @@ export default function Portfolio() {
             marginTop: '24px',
             boxSizing: 'border-box'
           }}>
-            {/* Bloque Izquierdo */}
             <div className="navbar-links-left" style={{ display: 'flex', gap: '24px' }}>
               <a href="#about" className="navbar-link" style={navLinkStyle}>About me</a>
               <a href="#otros-proyectos" className="navbar-link" style={navLinkStyle}>Proyectos</a>
               <a href="#contacto" className="navbar-link" style={navLinkStyle}>Contacto</a>
             </div>
 
-            {/* Bloque Derecho */}
             <div className="navbar-links-right" style={{ display: 'flex', gap: '24px' }}>
               <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="navbar-link" style={navLinkStyle}>GitHub</a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="navbar-link" style={navLinkStyle}>LinkedIn</a>
@@ -240,7 +285,7 @@ export default function Portfolio() {
                     height: '8px',
                     borderRadius: '50%',
                     border: 'none',
-                    background: activeIndex === index ? 'var(--text, #11)' : 'rgba(0, 0, 0, 0.15)',
+                    background: activeIndex === index ? 'var(--text, #111)' : 'rgba(0, 0, 0, 0.15)',
                     cursor: 'pointer',
                     padding: 0,
                     transition: 'background 0.3s, transform 0.3s',
@@ -381,7 +426,6 @@ export default function Portfolio() {
             gap: '48px',
             alignItems: 'start'
           }}>
-            {/* Lado Izquierdo: Biografía */}
             <div style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text, #111)' }}>
               <p style={{ marginBottom: '16px' }}>
                 ¡Hola! Soy <strong>Marcelo Hernán Moyano Crespo</strong>, el desarrollador detrás de AMsolutions. Me apasiona construir productos digitales que no solo se vean bien, sino que vuelen en rendimiento y usabilidad.
@@ -394,7 +438,6 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Lado Derecho: Tarjeta de Stack */}
             <div style={{
               background: 'rgba(0, 0, 0, 0.02)',
               padding: '24px',
@@ -422,7 +465,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* GRILLA DE PRÓXIMOS LANZAMIENTOS */}
+        {/* GRILLA DE PROYECTOS COMPLETAMENTE IGUAL AL SLIDER */}
         <section id="otros-proyectos" style={{ padding: '48px 0', borderTop: '1px solid rgba(17, 17, 17, 0.1)', marginBottom: '80px' }}>
           <h2 style={{
             fontFamily: "'Inter', sans-serif",
@@ -432,70 +475,165 @@ export default function Portfolio() {
             textTransform: 'uppercase',
             marginBottom: '32px'
           }}>
-            Próximos lanzamientos
+            Otros Proyectos y Lanzamientos
           </h2>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '24px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '32px'
           }}>
-            <div className="placeholder-card" style={{
-              border: '1px dashed rgba(17, 17, 17, 0.2)',
-              borderRadius: '16px',
-              aspectRatio: '1 / 1',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '24px',
-              textAlign: 'center',
-              background: 'rgba(0, 0, 0, 0.01)',
-              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease',
-              cursor: 'default'
-            }}>
-              <span style={{ fontSize: '24px', fontWeight: '200', color: 'rgba(0, 0, 0, 0.3)', marginBottom: '12px' }}>+</span>
-              <h4 style={{ fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0', color: 'rgba(0,0,0,0.8)' }}>Proyecto Beta</h4>
-              <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.4)', margin: 0 }}>Desarrollo de microservicios en proceso</p>
-            </div>
+            {gridProjects.map((project) => {
+              const isItemOpen = openGridProject === project.id;
+              
+              return (
+                <div 
+                  key={project.id} 
+                  style={{ 
+                    background: 'rgba(0, 0, 0, 0.015)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    border: project.isLive ? '1px solid rgba(16, 185, 129, 0.2)' : '1px dashed rgba(17, 17, 17, 0.15)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '20px',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  {/* Caja de Preview idéntica en proporción */}
+                  <div style={{ 
+                    borderRadius: '12px', 
+                    overflow: 'hidden', 
+                    width: '100%', 
+                    aspectRatio: '16 / 10', 
+                    background: 'rgba(0, 0, 0, 0.04)', 
+                    position: 'relative'
+                  }}>
+                    {project.isLive ? (
+                      <img 
+                        src={`https://api.microlink.io?url=${encodeURIComponent(project.href)}&screenshot=true&meta=false&embed=screenshot.url`}
+                        alt={project.title} 
+                        loading="lazy"
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(0, 0, 0, 0.35)',
+                        fontSize: '13px',
+                        gap: '8px'
+                      }}>
+                        <span style={{ fontSize: '24px' }}>⚙️</span>
+                        <span>Próximamente en producción</span>
+                      </div>
+                    )}
+                  </div>
 
-            <div className="placeholder-card" style={{
-              border: '1px dashed rgba(17, 17, 17, 0.2)',
-              borderRadius: '16px',
-              aspectRatio: '1 / 1',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '24px',
-              textAlign: 'center',
-              background: 'rgba(0, 0, 0, 0.01)',
-              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease',
-              cursor: 'default'
-            }}>
-              <span style={{ fontSize: '24px', fontWeight: '200', color: 'rgba(0, 0, 0, 0.3)', marginBottom: '12px' }}>+</span>
-              <h4 style={{ fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0', color: 'rgba(0,0,0,0.8)' }}>SaaS Platform</h4>
-              <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.4)', margin: 0 }}>Planteo de arquitectura e integraciones</p>
-            </div>
+                  {/* Contenido */}
+                  <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <h3 style={{ fontSize: '18px', margin: 0, fontWeight: '600' }}>{project.title}</h3>
+                      {project.isLive && (
+                        <span style={{ 
+                          fontSize: '9px', 
+                          background: 'rgba(16, 185, 129, 0.15)', 
+                          color: '#10b981', 
+                          padding: '2px 6px', 
+                          borderRadius: '12px', 
+                          fontWeight: '700',
+                          textTransform: 'uppercase'
+                        }}>
+                          Live
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p style={{ color: 'rgba(0,0,0,0.7)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.4', flexGrow: 1 }}>
+                      {project.description}
+                    </p>
 
-            <div className="placeholder-card" style={{
-              border: '1px dashed rgba(17, 17, 17, 0.2)',
-              borderRadius: '16px',
-              aspectRatio: '1 / 1',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '24px',
-              textAlign: 'center',
-              background: 'rgba(0, 0, 0, 0.01)',
-              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease',
-              cursor: 'default'
-            }}>
-              <span style={{ fontSize: '24px', fontWeight: '200', color: 'rgba(0, 0, 0, 0.3)', marginBottom: '12px' }}>+</span>
-              <h4 style={{ fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0', color: 'rgba(0,0,0,0.8)' }}>Mobile App</h4>
-              <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.4)', margin: 0 }}>Diseño de UI e interacciones nativas</p>
-            </div>
+                    {/* Botón Acordeón idéntico */}
+                    <button 
+                      onClick={() => toggleGridProject(project.id)} 
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--text, #111)',
+                        fontWeight: '600',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        padding: '4px 0',
+                        textDecoration: 'underline',
+                        marginBottom: '12px',
+                        textAlign: 'left',
+                        display: 'block',
+                        width: 'fit-content'
+                      }}
+                    >
+                      {isItemOpen ? 'Ocultar detalles técnicos ↑' : 'Ver detalles técnicos ↓'}
+                    </button>
+
+                    {/* Contenido Acordeón */}
+                    <div style={{
+                      maxHeight: isItemOpen ? '350px' : '0px',
+                      overflow: 'hidden',
+                      transition: 'max-height 0.4s cubic-bezier(0, 1, 0, 1)',
+                      fontSize: '13px',
+                      color: 'var(--text, #111)',
+                      background: 'rgba(0, 0, 0, 0.02)',
+                      padding: isItemOpen ? '12px' : '0 12px',
+                      borderRadius: '8px',
+                      marginBottom: '12px'
+                    }}>
+                      <p style={{ marginBottom: '8px' }}><strong>El Desafío:</strong> {project.problema}</p>
+                      <p style={{ marginBottom: '12px' }}><strong>La Solución:</strong> {project.solucion}</p>
+                      
+                      {/* Aquí ocultamos el botón de forma limpia sólo si showLiveButton es falso o ausente */}
+                      {project.isLive && project.showLiveButton !== false && (
+                        <a 
+                          href={project.href} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-block',
+                            background: '#111',
+                            color: '#fff',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            textDecoration: 'none',
+                            fontWeight: '500',
+                            fontSize: '12px'
+                          }}
+                        >
+                          Visitar Sitio Live
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Stack técnico */}
+                    <div style={{ 
+                      borderLeftColor: project.accentColor, 
+                      borderLeftWidth: '2px', 
+                      borderLeftStyle: 'solid', 
+                      paddingLeft: '12px', 
+                      marginTop: 'auto',
+                      fontSize: '12px'
+                    }}>
+                      <span style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
@@ -509,9 +647,8 @@ export default function Portfolio() {
           gap: '32px',
           width: '100%'
         }}>
-          {/* Fila del Mail */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', width: '100%' }}>
-            <div>
+            <div style={{ margin: '0 auto' }}>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: '500' }}>¿Tenés una idea o proyecto en mente?</p>
               <a 
                 href={gmailUrl}
@@ -534,7 +671,6 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Fila inferior */}
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
