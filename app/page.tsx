@@ -32,11 +32,11 @@ const gridProjects = [
     description: 'Mi carta de presentación interactiva y profesional diseñada para una navegación ultra veloz.',
     href: 'https://marcelomoyano.vercel.app',
     tech: 'Next.js, React, Tailwind CSS, Vercel',
-    accentColor: '#10b981', // Tono esmeralda
+    accentColor: '#10b981', 
     problema: 'Los portafolios modernos suelen abusar de animaciones pesadas y frameworks sobredimensionados, lo que espanta a clientes potenciales que buscan respuestas rápidas.',
     solucion: 'Diseñé una interfaz minimalista y brutalista súper optimizada, estructurando el contenido para lectura escaneable y utilizando Next.js para asegurar una carga por debajo del segundo.',
     isLive: true,
-    showLiveButton: false // Propiedad especial para ocultar el botón de "Visitar Sitio Live" en su propia tarjeta
+    showLiveButton: false 
   },
   {
     id: 'beta',
@@ -67,21 +67,15 @@ const gridProjects = [
 export default function Portfolio() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  
-  // Estado para controlar qué acordeón de la grilla está abierto (mapeado por id del proyecto)
   const [openGridProject, setOpenGridProject] = useState<string | null>(null);
-  
   const [showScrollTop, setShowScrollTop] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Referencias para manejar el arrastre (Swipe / Drag) en el slider
   const dragStartX = useRef(0);
   const isDragging = useRef(false);
 
   const resetTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+    if (timerRef.current) clearInterval(timerRef.current);
     if (!isOpen) {
       timerRef.current = setInterval(() => {
         setActiveIndex((current) => (current + 1) % projects.length);
@@ -94,11 +88,9 @@ export default function Portfolio() {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
-    
     timerRef.current = setInterval(() => {
       setActiveIndex((current) => (current + 1) % projects.length);
     }, 10000);
-
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -106,13 +98,8 @@ export default function Portfolio() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
+      setShowScrollTop(window.scrollY > 300);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -140,7 +127,6 @@ export default function Portfolio() {
   const handleDragMove = (clientX: number) => {
     if (!isDragging.current) return;
     const diffX = clientX - dragStartX.current;
-
     if (diffX > 80) {
       handlePrev();
       isDragging.current = false;
@@ -155,10 +141,7 @@ export default function Portfolio() {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleGridProject = (id: string) => {
@@ -174,7 +157,7 @@ export default function Portfolio() {
     fontWeight: '500',
     textTransform: 'uppercase' as const,
     letterSpacing: '0.12em',
-    color: 'var(--text, #111111)',
+    color: 'var(--accent, #9ca3af)', 
     textDecoration: 'none',
     transition: 'opacity 0.2s ease'
   };
@@ -187,8 +170,8 @@ export default function Portfolio() {
         WebkitUserSelect: 'none',
         minHeight: '100vh',
         boxSizing: 'border-box',
-        background: 'var(--bg-verde-salvia, #e2e8f0)', 
-        color: 'var(--text, #111111)',
+        background: 'var(--bg-verde-salvia, #222924)', 
+        color: 'var(--text, #eef1ed)',
         padding: '40px 24px'
       }}
     >
@@ -197,13 +180,12 @@ export default function Portfolio() {
         {/* CABECERA */}
         <header className="intro-section" style={{ marginTop: '20px' }}>
           <h1 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontSize: 'min(130px, 12vw)',
-            fontWeight: '400',
-            fontStyle: 'italic',
-            letterSpacing: '-0.04em',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 'min(90px, 10vw)',
+            fontWeight: '700',
+            letterSpacing: '-0.02em',
             marginBottom: '0px',
-            lineHeight: '0.85',
+            lineHeight: '0.9',
             display: 'inline-block',
             WebkitFontSmoothing: 'antialiased',
             MozOsxFontSmoothing: 'grayscale'
@@ -218,12 +200,13 @@ export default function Portfolio() {
             letterSpacing: '0.08em',
             marginBottom: '16px',
             marginTop: '12px',
-            display: 'block'
+            display: 'block',
+            color: 'var(--accent, #9ca3af)'
           }}>
             Digital craft by Marcelo Hernán Moyano Crespo
           </p>
 
-          <p className="lead-paragraph" style={{ marginTop: '0px', marginBottom: '24px', maxWidth: '600px', fontSize: '15px', lineHeight: '1.5' }}>
+          <p className="lead-paragraph" style={{ marginTop: '0px', marginBottom: '24px', maxWidth: '600px', fontSize: '15px', lineHeight: '1.5', color: 'var(--accent, #9ca3af)' }}>
             Arquitectura web centrada en el rendimiento puro. Convertimos su visión en código sólido, eliminando la complejidad para que cada proyecto funcione sin fricción.
           </p>
 
@@ -231,8 +214,8 @@ export default function Portfolio() {
             position: 'relative', 
             width: '100%', 
             padding: '24px 0px', 
-            borderTop: '1px solid rgba(17, 17, 17, 0.1)', 
-            borderBottom: '1px solid rgba(17, 17, 17, 0.1)', 
+            borderTop: '1px solid rgba(243, 244, 246, 0.1)', 
+            borderBottom: '1px solid rgba(243, 244, 246, 0.1)', 
             display: 'flex',
             justifyContent: 'space-between', 
             alignItems: 'center',
@@ -241,7 +224,7 @@ export default function Portfolio() {
             boxSizing: 'border-box'
           }}>
             <div className="navbar-links-left" style={{ display: 'flex', gap: '24px' }}>
-              <a href="#about" className="navbar-link" style={navLinkStyle}>About me</a>
+              <a href="#about" className="navbar-link" style={navLinkStyle}>Sobre mí</a>
               <a href="#otros-proyectos" className="navbar-link" style={navLinkStyle}>Proyectos</a>
               <a href="#contacto" className="navbar-link" style={navLinkStyle}>Contacto</a>
             </div>
@@ -267,15 +250,8 @@ export default function Portfolio() {
           </h2>
 
           <div style={{ position: 'relative', width: '100%' }}>
-            
             {/* Dots */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '8px',
-              marginBottom: '24px', 
-              width: '100%'
-            }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px', width: '100%' }}>
               {projects.map((_, index) => (
                 <button
                   key={index}
@@ -285,7 +261,7 @@ export default function Portfolio() {
                     height: '8px',
                     borderRadius: '50%',
                     border: 'none',
-                    background: activeIndex === index ? 'var(--text, #111)' : 'rgba(0, 0, 0, 0.15)',
+                    background: activeIndex === index ? 'var(--text, #eef1ed)' : 'rgba(255, 255, 255, 0.2)',
                     cursor: 'pointer',
                     padding: 0,
                     transition: 'background 0.3s, transform 0.3s',
@@ -297,12 +273,11 @@ export default function Portfolio() {
             </div>
             
             {/* Wrapper del slider */}
-            <div className="slides-wrapper" style={{ minHeight: isOpen ? '650px' : '450px', transition: 'min-height 0.5s ease' }}>
+            <div className="slides-wrapper" style={{ minHeight: isOpen ? '650px' : '450px', transition: 'min-height 0.35s ease' }}>
               {projects.map((project, index) => (
                 <div key={project.title} className={`project-card ${index === activeIndex ? 'active' : ''}`}>
-                  <div className="card-link" style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', textAlign: 'center' }}>
                     
-                    {/* Caja de Preview */}
                     <div 
                       className="preview-box" 
                       onMouseDown={(e) => handleDragStart(e.clientX)}
@@ -318,7 +293,7 @@ export default function Portfolio() {
                         width: '100%', 
                         maxWidth: '520px', 
                         aspectRatio: '16 / 10', 
-                        background: 'rgba(0, 0, 0, 0.04)', 
+                        background: 'rgba(255, 255, 255, 0.05)', 
                         margin: '0 auto',
                         cursor: 'grab',
                         userSelect: 'none',
@@ -331,26 +306,20 @@ export default function Portfolio() {
                         className="preview-image"
                         loading="lazy"
                         draggable="false" 
-                        style={{ 
-                          borderRadius: '16px', 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'cover', 
-                          pointerEvents: 'none'
-                        }}
+                        style={{ borderRadius: '16px', width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
                       />
                     </div>
                     
-                    <div className="project-content" style={{ width: '100%', maxWidth: '520px', margin: '0 auto', textAlign: 'left' }}>
+                    <div style={{ width: '100%', maxWidth: '520px', margin: '0 auto', textAlign: 'left' }}>
                       <h3 style={{ fontSize: '24px', marginTop: '0', marginBottom: '8px' }}>{project.title}</h3>
-                      <p className="description" style={{ color: 'rgba(0,0,0,0.7)', fontSize: '14px', marginBottom: '12px' }}>{project.description}</p>
+                      <p style={{ color: 'var(--accent, #9ca3af)', fontSize: '14px', marginBottom: '12px' }}>{project.description}</p>
                       
                       <button 
                         onClick={() => setIsOpen(!isOpen)} 
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: 'var(--text, #111)',
+                          color: 'var(--text, #eef1ed)',
                           fontWeight: '600',
                           fontSize: '12px',
                           cursor: 'pointer',
@@ -363,14 +332,13 @@ export default function Portfolio() {
                         {isOpen ? 'Ocultar detalles técnicos ↑' : 'Ver detalles técnicos ↓'}
                       </button>
 
-                      {/* Acordeón de detalles */}
                       <div style={{
                         maxHeight: isOpen ? '350px' : '0px',
                         overflow: 'hidden',
-                        transition: 'max-height 0.5s cubic-bezier(0, 1, 0, 1)',
+                        transition: 'max-height 0.35s ease',
                         fontSize: '13px',
-                        color: 'var(--text, #111)',
-                        background: 'rgba(0, 0, 0, 0.02)',
+                        color: 'var(--text, #eef1ed)',
+                        background: 'rgba(255, 255, 255, 0.03)',
                         padding: isOpen ? '16px' : '0 16px',
                         borderRadius: '8px',
                         marginBottom: '16px'
@@ -383,8 +351,8 @@ export default function Portfolio() {
                           rel="noopener noreferrer"
                           style={{
                             display: 'inline-block',
-                            background: '#111',
-                            color: '#fff',
+                            background: '#eef1ed',
+                            color: '#222924',
                             padding: '6px 12px',
                             borderRadius: '6px',
                             textDecoration: 'none',
@@ -395,20 +363,19 @@ export default function Portfolio() {
                         </a>
                       </div>
 
-                      <div className="tech-tag" style={{ borderLeftColor: project.accentColor, borderLeftWidth: '2px', borderLeftStyle: 'solid', paddingLeft: '12px', marginTop: '12px' }}>
-                        <span className="label" style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
+                      <div style={{ borderLeftColor: project.accentColor, borderLeftWidth: '2px', borderLeftStyle: 'solid', paddingLeft: '12px', marginTop: '12px' }}>
+                        <span style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
         </section>
 
         {/* SECCIÓN SOBRE MÍ */}
-        <section id="about" style={{ padding: '48px 0', borderTop: '1px solid rgba(17, 17, 17, 0.1)', marginBottom: '80px' }}>
+        <section id="about" style={{ padding: '48px 0', borderTop: '1px solid rgba(243, 244, 246, 0.1)', marginBottom: '80px' }}>
           <h2 style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: '14px',
@@ -420,15 +387,10 @@ export default function Portfolio() {
             Sobre mí
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '48px',
-            alignItems: 'start'
-          }}>
-            <div style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text, #111)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px', alignItems: 'start' }}>
+            <div style={{ fontSize: '15px', lineHeight: '1.6', color: 'var(--text, #eef1ed)' }}>
               <p style={{ marginBottom: '16px' }}>
-                ¡Hola! Soy <strong>Marcelo Hernán Moyano Crespo</strong>, el desarrollador detrás de AMsolutions. Me apasiona construir productos digitales que no solo se vean bien, sino que vuelen en rendimiento y usabilidad.
+                ¡Hola! Soy Marcelo Hernán Moyano Crespo, el desarrollador detrás de AMsolutions. Me apasiona construir productos digitales que no solo se vean bien, sino que vuelen en rendimiento y usabilidad.
               </p>
               <p style={{ marginBottom: '16px' }}>
                 Mi enfoque combina una profunda dedicación a la optimización de código con un diseño limpio y funcional. Creo firmemente que un buen software es aquel que resuelve problemas complejos de forma imperceptible y agradable para el usuario.
@@ -438,35 +400,30 @@ export default function Portfolio() {
               </p>
             </div>
 
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.02)',
-              padding: '24px',
-              borderRadius: '12px',
-              border: '1px solid rgba(17, 17, 17, 0.05)'
-            }}>
+            <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '24px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
               <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Core Tech Stack
               </h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px' }}>
-                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(17, 17, 17, 0.05)', paddingBottom: '8px' }}>
-                  <strong>Frontend:</strong> <span style={{ textAlign: 'right' }}>React, Next.js, TypeScript</span>
+                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', paddingBottom: '8px' }}>
+                  <strong>Frontend:</strong> <span>React, Next.js, TypeScript</span>
                 </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(17, 17, 17, 0.05)', paddingBottom: '8px' }}>
-                  <strong>Backend:</strong> <span style={{ textAlign: 'right' }}>Node.js, Express, REST APIs</span>
+                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', paddingBottom: '8px' }}>
+                  <strong>Backend:</strong> <span>Node.js, Express, REST APIs</span>
                 </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(17, 17, 17, 0.05)', paddingBottom: '8px' }}>
-                  <strong>BBDD:</strong> <span style={{ textAlign: 'right' }}>MongoDB, PostgreSQL</span>
+                <li style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', paddingBottom: '8px' }}>
+                  <strong>BBDD:</strong> <span>MongoDB, PostgreSQL</span>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '4px' }}>
-                  <strong>Herramientas:</strong> <span style={{ textAlign: 'right' }}>Git, Docker, Vercel, Stripe</span>
+                  <strong>Herramientas:</strong> <span>Git, Docker, Vercel, Stripe</span>
                 </li>
               </ul>
             </div>
           </div>
         </section>
 
-        {/* GRILLA DE PROYECTOS COMPLETAMENTE IGUAL AL SLIDER */}
-        <section id="otros-proyectos" style={{ padding: '48px 0', borderTop: '1px solid rgba(17, 17, 17, 0.1)', marginBottom: '80px' }}>
+        {/* GRILLA DE OTROS PROYECTOS */}
+        <section id="otros-proyectos" style={{ padding: '48px 0', borderTop: '1px solid rgba(243, 244, 246, 0.1)', marginBottom: '80px' }}>
           <h2 style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: '14px',
@@ -478,96 +435,49 @@ export default function Portfolio() {
             Otros Proyectos y Lanzamientos
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '32px'
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
             {gridProjects.map((project) => {
               const isItemOpen = openGridProject === project.id;
-              
               return (
                 <div 
                   key={project.id} 
                   style={{ 
-                    background: 'rgba(0, 0, 0, 0.015)',
+                    background: 'rgba(255, 255, 255, 0.015)',
                     borderRadius: '16px',
                     padding: '24px',
-                    border: project.isLive ? '1px solid rgba(16, 185, 129, 0.2)' : '1px dashed rgba(17, 17, 17, 0.15)',
+                    border: project.isLive ? '1px solid rgba(16, 185, 129, 0.3)' : '1px dashed rgba(255, 255, 255, 0.15)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '20px',
-                    transition: 'all 0.3s ease'
+                    gap: '20px'
                   }}
                 >
-                  {/* Caja de Preview idéntica en proporción */}
-                  <div style={{ 
-                    borderRadius: '12px', 
-                    overflow: 'hidden', 
-                    width: '100%', 
-                    aspectRatio: '16 / 10', 
-                    background: 'rgba(0, 0, 0, 0.04)', 
-                    position: 'relative'
-                  }}>
+                  <div style={{ borderRadius: '12px', overflow: 'hidden', width: '100%', aspectRatio: '16 / 10', background: 'rgba(255, 255, 255, 0.05)', position: 'relative' }}>
                     {project.isLive ? (
-                      <img 
-                        src={`https://api.microlink.io?url=${encodeURIComponent(project.href)}&screenshot=true&meta=false&embed=screenshot.url`}
-                        alt={project.title} 
-                        loading="lazy"
-                        style={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'cover'
-                        }}
-                      />
+                      <img src={`https://api.microlink.io?url=${encodeURIComponent(project.href)}&screenshot=true&meta=false&embed=screenshot.url`} alt={project.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <div style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'rgba(0, 0, 0, 0.35)',
-                        fontSize: '13px',
-                        gap: '8px'
-                      }}>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'rgba(255, 255, 255, 0.35)', fontSize: '13px', gap: '8px' }}>
                         <span style={{ fontSize: '24px' }}>⚙️</span>
                         <span>Próximamente en producción</span>
                       </div>
                     )}
                   </div>
 
-                  {/* Contenido */}
                   <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                       <h3 style={{ fontSize: '18px', margin: 0, fontWeight: '600' }}>{project.title}</h3>
                       {project.isLive && (
-                        <span style={{ 
-                          fontSize: '9px', 
-                          background: 'rgba(16, 185, 129, 0.15)', 
-                          color: '#10b981', 
-                          padding: '2px 6px', 
-                          borderRadius: '12px', 
-                          fontWeight: '700',
-                          textTransform: 'uppercase'
-                        }}>
-                          Live
-                        </span>
+                        <span style={{ fontSize: '9px', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', padding: '2px 6px', borderRadius: '12px', fontWeight: '700', textTransform: 'uppercase' }}>Live</span>
                       )}
                     </div>
                     
-                    <p style={{ color: 'rgba(0,0,0,0.7)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.4', flexGrow: 1 }}>
-                      {project.description}
-                    </p>
+                    <p style={{ color: 'var(--accent, #9ca3af)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.4', flexGrow: 1 }}>{project.description}</p>
 
-                    {/* Botón Acordeón idéntico */}
                     <button 
                       onClick={() => toggleGridProject(project.id)} 
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: 'var(--text, #111)',
+                        color: 'var(--text, #eef1ed)',
                         fontWeight: '600',
                         fontSize: '12px',
                         cursor: 'pointer',
@@ -582,14 +492,13 @@ export default function Portfolio() {
                       {isItemOpen ? 'Ocultar detalles técnicos ↑' : 'Ver detalles técnicos ↓'}
                     </button>
 
-                    {/* Contenido Acordeón */}
                     <div style={{
                       maxHeight: isItemOpen ? '350px' : '0px',
                       overflow: 'hidden',
-                      transition: 'max-height 0.4s cubic-bezier(0, 1, 0, 1)',
+                      transition: 'max-height 0.35s ease',
                       fontSize: '13px',
-                      color: 'var(--text, #111)',
-                      background: 'rgba(0, 0, 0, 0.02)',
+                      color: 'var(--text, #eef1ed)',
+                      background: 'rgba(255, 255, 255, 0.02)',
                       padding: isItemOpen ? '12px' : '0 12px',
                       borderRadius: '8px',
                       marginBottom: '12px'
@@ -597,37 +506,12 @@ export default function Portfolio() {
                       <p style={{ marginBottom: '8px' }}><strong>El Desafío:</strong> {project.problema}</p>
                       <p style={{ marginBottom: '12px' }}><strong>La Solución:</strong> {project.solucion}</p>
                       
-                      {/* Aquí ocultamos el botón de forma limpia sólo si showLiveButton es falso o ausente */}
                       {project.isLive && project.showLiveButton !== false && (
-                        <a 
-                          href={project.href} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          style={{
-                            display: 'inline-block',
-                            background: '#111',
-                            color: '#fff',
-                            padding: '6px 12px',
-                            borderRadius: '6px',
-                            textDecoration: 'none',
-                            fontWeight: '500',
-                            fontSize: '12px'
-                          }}
-                        >
-                          Visitar Sitio Live
-                        </a>
+                        <a href={project.href} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: '#eef1ed', color: '#222924', padding: '6px 12px', borderRadius: '6px', textDecoration: 'none', fontWeight: '500', fontSize: '12px' }}>Visitar Sitio Live</a>
                       )}
                     </div>
 
-                    {/* Stack técnico */}
-                    <div style={{ 
-                      borderLeftColor: project.accentColor, 
-                      borderLeftWidth: '2px', 
-                      borderLeftStyle: 'solid', 
-                      paddingLeft: '12px', 
-                      marginTop: 'auto',
-                      fontSize: '12px'
-                    }}>
+                    <div style={{ borderLeftColor: project.accentColor, borderLeftWidth: '2px', borderLeftStyle: 'solid', paddingLeft: '12px', marginTop: 'auto', fontSize: '12px' }}>
                       <span style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
                     </div>
                   </div>
@@ -641,7 +525,7 @@ export default function Portfolio() {
         <footer id="contacto" style={{ 
           marginTop: '80px', 
           paddingTop: '32px', 
-          borderTop: '1px solid rgba(17, 17, 17, 0.1)',
+          borderTop: '1px solid rgba(243, 244, 246, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           gap: '32px',
@@ -656,12 +540,12 @@ export default function Portfolio() {
                 rel="noopener noreferrer"
                 style={{ 
                   fontSize: '18px', 
-                  fontWeight: '600', 
-                  color: 'var(--text, #111)', 
-                  textDecoration: 'underline',
-                  marginTop: '4px',
-                  display: 'inline-block',
-                  transition: 'opacity 0.2s ease'
+                  fontWeight: '400', 
+                  color: 'var(--text, #eef1ed)', 
+                  textDecoration: 'underline', 
+                  marginTop: '4px', 
+                  display: 'inline-block', 
+                  transition: 'opacity 0.2s ease' 
                 }}
                 onMouseOver={(e) => e.currentTarget.style.opacity = '0.7'}
                 onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
@@ -676,13 +560,24 @@ export default function Portfolio() {
             justifyContent: 'space-between', 
             alignItems: 'center',
             fontSize: '12px', 
-            color: 'rgba(0,0,0,0.5)', 
-            borderTop: '1px solid rgba(0,0,0,0.05)', 
+            color: 'var(--accent, #9ca3af)', 
+            borderTop: '1px solid rgba(255,255,255,0.05)', 
             paddingTop: '16px',
             width: '100%'
           }}>
             <p style={{ margin: 0 }}>
               © {new Date().getFullYear()} — Córdoba, Argentina
+              <span style={{ margin: '0 8px' }}>•</span>
+              <a 
+                href="https://www.instagram.com/amsolution.studio/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ color: 'var(--accent, #9ca3af)', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseOver={(e) => e.currentTarget.style.color = 'var(--text, #eef1ed)'}
+                onMouseOut={(e) => e.currentTarget.style.color = 'var(--accent, #9ca3af)'}
+              >
+                Instagram
+              </a>
             </p>
             <p style={{ margin: 0 }}>
               Designed & Crafted by MHMC
@@ -701,14 +596,14 @@ export default function Portfolio() {
           width: '44px',
           height: '44px',
           borderRadius: '50%',
-          backgroundColor: 'var(--text, #111)',
-          color: 'var(--bg-verde-salvia, #e2e8f0)',
+          backgroundColor: 'var(--text, #eef1ed)',
+          color: '#222924',
           border: 'none',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
           opacity: showScrollTop ? 1 : 0,
           visibility: showScrollTop ? 'visible' : 'hidden',
           transform: showScrollTop ? 'translateY(0)' : 'translateY(16px)',
@@ -721,7 +616,6 @@ export default function Portfolio() {
       >
         ↑
       </button>
-
     </div>
   );
 }

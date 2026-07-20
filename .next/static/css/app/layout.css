@@ -82,12 +82,11 @@ html {
   scroll-behavior: smooth;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap');
-
 :root {
-  --bg-verde-salvia: #e3e8de;
-  --text: #111111;
-  --accent: #555555;
+  --bg-verde-salvia: #222924; /* Muted Sage: Gris plomo oscuro y cenizo */
+  --text: #eef1ed;            /* Blanco ceniza suave para textos principales (Gran lectura) */
+  --accent: #9ca3af;          /* Gris claro para textos secundarios y enlaces del menú */
+  --title: #ffffff;           /* Blanco puro para títulos de alto impacto */
 }
 
 * {
@@ -100,12 +99,17 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--bg-verde-salvia); /* Fondo uniforme */
+  background-color: var(--bg-verde-salvia); 
   color: var(--text);
   font-family: 'Inter', sans-serif;
   padding: 0 40px; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- TÍTULOS CON MÁXIMO CONTRASTE --- */
+h1, h2, h3, strong {
+  color: var(--title) !important;
 }
 
 /* --- NAVBAR --- */
@@ -131,7 +135,11 @@ body {
   transition: color 0.3s ease;
 }
 
-/* --- CONTENEDOR PRINCIPAL (SIN CAJA GRIS) --- */
+.navbar-links a:hover {
+  color: var(--title); /* Pasa a blanco brillante al hacer hover */
+}
+
+/* --- CONTENEDOR PRINCIPAL --- */
 .portfolio-shell {
   max-width: 960px;
   margin: 0 auto;
@@ -139,7 +147,7 @@ body {
   background-color: var(--bg-verde-salvia) !important; 
 }
 
-/* --- ESTRUCTURA DE PROYECTOS --- */
+/* --- ESTRUCTURA DE PROYECTOS (Slider fluido y veloz) --- */
 .slides-wrapper {
   position: relative;
   width: 100%;
@@ -154,14 +162,14 @@ body {
   width: 100%;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(40px);
-  transition: all 2.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(12px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card.active {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 .preview-box {
@@ -172,7 +180,7 @@ body {
   margin: 0 auto;
 }
 
-/* --- ADAPTACIÓN RESPONSIVE (MÓVIL) --- */
+/* --- ADAPTACIÓN RESPONSIVE --- */
 @media (max-width: 768px) {
   body {
     padding: 0 16px;
@@ -191,7 +199,6 @@ body {
     max-width: 100% !important;
   }
 
-  /* Forzamos la grilla a una sola columna */
   #otros-proyectos > div {
     display: flex !important;
     flex-direction: column !important;
