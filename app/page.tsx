@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-// Slider: Solo tus dos productos principales
+// Slider: Solo tus dos productos principales con imágenes locales
 const projects = [
   {
     title: 'Ronin Bike',
     description: 'Plataforma de e-commerce para ciclismo de alta gama con optimización SEO avanzada.',
     href: 'https://ronin-bike.vercel.app',
+    image: '/ronin-bike.jpeg',
     tech: 'Next.js, TypeScript, Tailwind CSS, Stripe',
     accentColor: '#d97706',
     problema: 'Las plataformas de e-commerce de ciclismo suelen ser pesadas debido a la alta resolución de las imágenes, lo que destruye el rendimiento móvil y el posicionamiento en Google (SEO).',
@@ -17,6 +18,7 @@ const projects = [
     title: 'Urban Store',
     description: 'Tienda digital enfocada en indumentaria urbana y una experiencia de usuario fluida.',
     href: 'https://urban-store-xi.vercel.app',
+    image: '/urban-store.jpeg',
     tech: 'React, Node.js, Express, MongoDB',
     accentColor: '#2563eb',
     problema: 'Las tiendas de ropa necesitan filtros rápidos por talle, color y categoría. En bases de datos mal optimizadas, cruzar estos datos ralentiza la carga y frustra la navegación.',
@@ -237,7 +239,7 @@ export default function Portfolio() {
         </header>
 
         {/* SECCIÓN DE PROYECTOS DESTACADOS */}
-        <section id="proyectos" className="projects-section" style={{ marginBottom: '80px' }}>
+        <section id="proyectos" className="projects-section" style={{ marginBottom: '80px', position: 'relative' }}>
           <h2 style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: '14px',
@@ -272,104 +274,115 @@ export default function Portfolio() {
               ))}
             </div>
             
-            {/* Wrapper del slider */}
-            <div className="slides-wrapper" style={{ minHeight: isOpen ? '650px' : '450px', transition: 'min-height 0.35s ease' }}>
-              {projects.map((project, index) => (
-                <div key={project.title} className={`project-card ${index === activeIndex ? 'active' : ''}`}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', textAlign: 'center' }}>
-                    
-                    <div 
-                      className="preview-box" 
-                      onMouseDown={(e) => handleDragStart(e.clientX)}
-                      onMouseMove={(e) => handleDragMove(e.clientX)}
-                      onMouseUp={handleDragEnd}
-                      onMouseLeave={handleDragEnd}
-                      onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-                      onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
-                      onTouchEnd={handleDragEnd}
-                      style={{ 
-                        borderRadius: '16px', 
-                        overflow: 'hidden', 
-                        width: '100%', 
-                        maxWidth: '520px', 
-                        aspectRatio: '16 / 10', 
-                        background: 'rgba(255, 255, 255, 0.05)', 
-                        margin: '0 auto',
-                        cursor: 'grab',
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none'
-                      }}
-                    >
-                      <img 
-                        src={`https://api.microlink.io?url=${encodeURIComponent(project.href)}&screenshot=true&meta=false&embed=screenshot.url`}
-                        alt={project.title} 
-                        className="preview-image"
-                        loading="lazy"
-                        draggable="false" 
-                        style={{ borderRadius: '16px', width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
-                      />
-                    </div>
-                    
-                    <div style={{ width: '100%', maxWidth: '520px', margin: '0 auto', textAlign: 'left' }}>
-                      <h3 style={{ fontSize: '24px', marginTop: '0', marginBottom: '8px' }}>{project.title}</h3>
-                      <p style={{ color: 'var(--accent, #9ca3af)', fontSize: '14px', marginBottom: '12px' }}>{project.description}</p>
+            {/* Wrapper del slider (adaptación de altura dinámica) */}
+            <div className="slides-wrapper" style={{ position: 'relative', width: '100%', height: 'auto' }}>
+              {projects.map((project, index) => {
+                const isActive = index === activeIndex;
+                return (
+                  <div 
+                    key={project.title} 
+                    className={`project-card ${isActive ? 'active' : ''}`}
+                    style={{
+                      display: isActive ? 'block' : 'none',
+                      position: 'relative',
+                      width: '100%'
+                    }}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', textAlign: 'center' }}>
                       
-                      <button 
-                        onClick={() => setIsOpen(!isOpen)} 
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'var(--text, #eef1ed)',
-                          fontWeight: '600',
-                          fontSize: '12px',
-                          cursor: 'pointer',
-                          padding: '4px 0',
-                          textDecoration: 'underline',
-                          marginBottom: '16px',
-                          display: 'block'
+                      <div 
+                        className="preview-box" 
+                        onMouseDown={(e) => handleDragStart(e.clientX)}
+                        onMouseMove={(e) => handleDragMove(e.clientX)}
+                        onMouseUp={handleDragEnd}
+                        onMouseLeave={handleDragEnd}
+                        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+                        onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+                        onTouchEnd={handleDragEnd}
+                        style={{ 
+                          borderRadius: '16px', 
+                          overflow: 'hidden', 
+                          width: '100%', 
+                          maxWidth: '520px', 
+                          aspectRatio: '16 / 10', 
+                          background: 'rgba(255, 255, 255, 0.05)', 
+                          margin: '0 auto',
+                          cursor: 'grab',
+                          userSelect: 'none',
+                          WebkitUserSelect: 'none'
                         }}
                       >
-                        {isOpen ? 'Ocultar detalles técnicos ↑' : 'Ver detalles técnicos ↓'}
-                      </button>
-
-                      <div style={{
-                        maxHeight: isOpen ? '350px' : '0px',
-                        overflow: 'hidden',
-                        transition: 'max-height 0.35s ease',
-                        fontSize: '13px',
-                        color: 'var(--text, #eef1ed)',
-                        background: 'rgba(255, 255, 255, 0.03)',
-                        padding: isOpen ? '16px' : '0 16px',
-                        borderRadius: '8px',
-                        marginBottom: '16px'
-                      }}>
-                        <p style={{ marginBottom: '8px' }}><strong>El Desafío:</strong> {project.problema}</p>
-                        <p style={{ marginBottom: '12px' }}><strong>La Solución:</strong> {project.solucion}</p>
-                        <a 
-                          href={project.href} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
+                        <img 
+                          src={project.image}
+                          alt={project.title} 
+                          className="preview-image"
+                          loading="lazy"
+                          draggable="false" 
+                          style={{ borderRadius: '16px', width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+                        />
+                      </div>
+                      
+                      <div style={{ width: '100%', maxWidth: '520px', margin: '0 auto', textAlign: 'left' }}>
+                        <h3 style={{ fontSize: '24px', marginTop: '0', marginBottom: '8px' }}>{project.title}</h3>
+                        <p style={{ color: 'var(--accent, #9ca3af)', fontSize: '14px', marginBottom: '12px' }}>{project.description}</p>
+                        
+                        <button 
+                          onClick={() => setIsOpen(!isOpen)} 
                           style={{
-                            display: 'inline-block',
-                            background: '#eef1ed',
-                            color: '#222924',
-                            padding: '6px 12px',
-                            borderRadius: '6px',
-                            textDecoration: 'none',
-                            fontWeight: '500'
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--text, #eef1ed)',
+                            fontWeight: '600',
+                            fontSize: '12px',
+                            cursor: 'pointer',
+                            padding: '4px 0',
+                            textDecoration: 'underline',
+                            marginBottom: '16px',
+                            display: 'block'
                           }}
                         >
-                          Visitar Sitio Oficial
-                        </a>
-                      </div>
+                          {isOpen ? 'Ocultar detalles técnicos ↑' : 'Ver detalles técnicos ↓'}
+                        </button>
 
-                      <div style={{ borderLeftColor: project.accentColor, borderLeftWidth: '2px', borderLeftStyle: 'solid', paddingLeft: '12px', marginTop: '12px' }}>
-                        <span style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
+                        <div style={{
+                          maxHeight: isOpen ? '350px' : '0px',
+                          overflow: 'hidden',
+                          transition: 'max-height 0.35s ease',
+                          fontSize: '13px',
+                          color: 'var(--text, #eef1ed)',
+                          background: 'rgba(255, 255, 255, 0.03)',
+                          padding: isOpen ? '16px' : '0 16px',
+                          borderRadius: '8px',
+                          marginBottom: '16px'
+                        }}>
+                          <p style={{ marginBottom: '8px' }}><strong>El Desafío:</strong> {project.problema}</p>
+                          <p style={{ marginBottom: '12px' }}><strong>La Solución:</strong> {project.solucion}</p>
+                          <a 
+                            href={project.href} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-block',
+                              background: '#eef1ed',
+                              color: '#222924',
+                              padding: '6px 12px',
+                              borderRadius: '6px',
+                              textDecoration: 'none',
+                              fontWeight: '500'
+                            }}
+                          >
+                            Visitar Sitio Oficial
+                          </a>
+                        </div>
+
+                        <div style={{ borderLeftColor: project.accentColor, borderLeftWidth: '2px', borderLeftStyle: 'solid', paddingLeft: '12px', marginTop: '12px' }}>
+                          <span style={{ fontWeight: '600' }}>Stack:</span> {project.tech}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
